@@ -1,0 +1,12 @@
+Name player1:
+Player1
+Name player2:
+Player2
+Player: Player1
+Board
+- | 1 | 2 | 3 |
+A |   |   |   |
+B |   |   |   |
+C |   |   |   |
+Current turn:
+Player1

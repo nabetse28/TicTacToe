@@ -1,0 +1,12 @@
+Name player1: 
+Emanuel
+Name player2: 
+Jose
+Player: Jose
+Board
+- | 1 | 2 | 3 |
+A | X |   |   |
+B |   |   |   |
+C |   |   |   |
+Current turn: 
+Jose
