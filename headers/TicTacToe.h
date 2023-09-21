@@ -21,8 +21,8 @@ private:
     void printBoard();
     bool checkWin();
     bool checkDraw();
-    void saveGame(const string &fileName);
-    void loadGame(const string &fileName);
+    bool saveGame(const string &fileName);
+    bool loadGame(const string &fileName);
 };
 
 #endif

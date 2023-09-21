@@ -5,7 +5,7 @@ Jose
 Player: Jose
 Board
 - | 1 | 2 | 3 |
-A | X |   |   |
+A |   |   |   |
 B |   |   |   |
 C |   |   |   |
 Current turn: 

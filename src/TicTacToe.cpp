@@ -25,30 +25,16 @@ void TicTacToe::play()
     // Mostrar mensaje de bienvenida
     cout << "Welcome to the Tic-Tac-Toe game" << endl;
 
-    // Preguntar si quiere cargar el archivo
-    string isLoadGame;
-    cout << "Do you want to load a game? (Y|N) ";
-    cin >> isLoadGame;
-
     string saveFileName;
 
-    if (isLoadGame == "Y" || isLoadGame == "y")
-    {
-        // Pedir al usuario el nombre del archivo de guardado
+    // Pedir al usuario el nombre del archivo de guardado
 
-        cout << "Enter the name of file from which you want to load: ";
-        cin >> saveFileName;
-        // Cargar el juego si existe
-        loadGame(saveFileName);
-    }
-    else
+    cout << "Enter the name of file from which you want to load: ";
+    cin >> saveFileName;
+    // Cargar el juego si existe
+    if (!loadGame(saveFileName))
     {
-        // Preguntar el nombre de los jugadores
-
-        cout << "Name player1 (Example: 'John_Doe'): ";
-        cin >> playerNames[0];
-        cout << "Name player2 (Example: 'Jane_Doe'): ";
-        cin >> playerNames[1];
+        return;
     }
 
     saveFileName = "saved_" + playerNames[0] + "_" + playerNames[1] + ".txt";
@@ -183,7 +169,7 @@ bool TicTacToe::checkDraw()
     return true;
 }
 
-void TicTacToe::saveGame(const string &fileName)
+bool TicTacToe::saveGame(const string &fileName)
 {
     ofstream outputFile(fileName); // Nombre del archivo de guardado
     if (outputFile.is_open())
@@ -192,7 +178,15 @@ void TicTacToe::saveGame(const string &fileName)
                    << playerNames[0] << endl;
         outputFile << "Name player2: " << endl
                    << playerNames[1] << endl;
-        outputFile << "Player: " << playerNames[currentPlayer == "X" ? 0 : 1] << endl;
+        if (currentPlayer == "X")
+        {
+            outputFile << "Player: " << playerNames[0] << endl;
+        }
+        else
+        {
+            outputFile << "Player: " << playerNames[1] << endl;
+        }
+        // outputFile << "Player: " << playerNames[currentPlayer == "X" ? 0 : 1] << endl; // ?: Esto es un operario ternatio, como un if.
         outputFile << "Board" << endl;
         outputFile << "- | 1 | 2 | 3 |" << endl;
 
@@ -211,15 +205,17 @@ void TicTacToe::saveGame(const string &fileName)
 
         outputFile.close();
         cout << "Game saved successfully to "
-             << fileName << endl;
+             << fileName;
+        return true;
     }
     else
     {
         cout << "Failed to save the game state." << endl;
+        return false;
     }
 }
 
-void TicTacToe::loadGame(const string &fileName)
+bool TicTacToe::loadGame(const string &fileName)
 {
     ifstream inputFile(fileName); // Nombre del archivo de guardado
 
@@ -273,7 +269,7 @@ void TicTacToe::loadGame(const string &fileName)
             // En caso de un error en los datos del archivo
             cout << "Error: Unable to determine the current player." << endl;
             inputFile.close();
-            return;
+            return false;
         }
 
         // Leer el encabezado del tablero desde el archivo
@@ -301,7 +297,7 @@ void TicTacToe::loadGame(const string &fileName)
             // En caso de un error en los datos del archivo
             cout << "Error: The save file doesn't match the correct format." << endl;
             inputFile.close();
-            return;
+            return false;
         }
 
         // Copiar el estado cargado al tablero del juego
@@ -316,10 +312,12 @@ void TicTacToe::loadGame(const string &fileName)
         inputFile.close();
         cout << "Game loaded successfully from "
              << fileName << endl;
+        return true;
     }
     else
     {
         // El archivo no existe, mostramos un mensaje y comenzamos un nuevo juego
-        cout << "No saved game found. Starting a new game." << endl;
+        cout << "No saved game found. Please specify a file name to load." << endl;
+        return false;
     }
 }
